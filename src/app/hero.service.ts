@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 
-import { Observable, of } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
 import { Hero } from './hero';
@@ -89,7 +89,12 @@ export class HeroService {
   updateHero (hero: Hero): Observable<any> {
     return this.http.put(this.heroesUrl, hero, httpOptions).pipe(
       tap(_ => this.log(`updated hero id=${hero.id}`)),
-      catchError(this.handleError<any>('updateHero'))
+      // catchError(this.handleError<any>('updateHero'))
+      catchError((error: HttpErrorResponse) => {
+        return throwError(
+          `Error updating Hero. ${error.statusText || "Unknown"} `
+        );
+      })
     );
   }
 

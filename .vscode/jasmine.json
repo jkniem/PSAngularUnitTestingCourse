@@ -1,0 +1,9 @@
+{
+    "spec_dir": "src",
+    "spec_files": ["**/*[sS]pec.ts"],
+    "helpers": ["helpers/**/*.ts"],
+    "random": false,
+    "seed": null,
+    "stopSpecOnExpectationFailure": false,
+    "jasmineExplorer.nodePath": null
+}
