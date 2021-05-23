@@ -23,7 +23,7 @@ export class RouterLinkDirectiveStub {
 describe('HeroesComponent  (deep tests)', () => {
     let fixture: ComponentFixture<HeroesComponent>;
     let mockHeroService: jasmine.SpyObj<HeroService>;
-    let HEROES: Hero[]
+    let HEROES: Hero[];
 
     beforeEach(() => {
         HEROES = [
