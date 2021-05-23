@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for src/app/heroes/heroes.component.ts</title>
+    <title>Code coverage report for src/app/hero-search/hero-search.component.ts</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../../prettify.css" />
     <link rel="stylesheet" href="../../../base.css" />
@@ -19,34 +19,34 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../../index.html">All files</a> / <a href="index.html">src/app/heroes</a> heroes.component.ts</h1>
+        <h1><a href="../../../index.html">All files</a> / <a href="index.html">src/app/hero-search</a> hero-search.component.ts</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>15/15</span>
+                <span class='fraction'>7/7</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>2/2</span>
+                <span class='fraction'>0/0</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>8/8</span>
+                <span class='fraction'>4/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>12/12</span>
+                <span class='fraction'>6/6</span>
             </div>
         
             
@@ -107,75 +107,75 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">11x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">12x</span>
-<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { Component, OnInit } from '@angular/core';
 &nbsp;
+import { Observable, Subject }         from 'rxjs';
+&nbsp;
+import {
+   debounceTime, distinctUntilChanged, switchMap
+ } from 'rxjs/operators';
+&nbsp;
 import { Hero } from '../hero';
 import { HeroService } from '../hero.service';
 &nbsp;
 @Component({
-  selector: 'app-heroes',
-  templateUrl: './heroes.component.html',
-  styleUrls: ['./heroes.component.css']
+  selector: 'app-hero-search',
+  templateUrl: './hero-search.component.html',
+  styleUrls: [ './hero-search.component.css' ]
 })
-export class HeroesComponent implements OnInit {
-  heroes: Hero[];
+export class HeroSearchComponent implements OnInit {
+  heroes$: Observable&lt;Hero[]&gt;;
+  private searchTerms = new Subject&lt;string&gt;();
 &nbsp;
-  constructor(private heroService: HeroService) { }
+  constructor(private heroService: HeroService) {}
 &nbsp;
-  ngOnInit() {
-    this.getHeroes();
+  // Push a search term into the observable stream.
+  search(term: string): void {
+    this.searchTerms.next(term);
   }
 &nbsp;
-  getHeroes(): void {
-    this.heroService.getHeroes()
-    .subscribe(heroes =&gt; this.heroes = heroes);
-  }
+  ngOnInit(): void {
+    this.heroes$ = this.searchTerms.pipe(
+      // wait 300ms after each keystroke before considering the term
+      debounceTime(300),
 &nbsp;
-  add(name: string): void {
-    name = name.trim();
-    var strength = 11
-    if (!name) { return; }
-    this.heroService.addHero({ name, strength } as Hero)
-      .subscribe(hero =&gt; {
-        this.heroes.push(hero);
-      });
-  }
+      // ignore new term if same as previous term
+      distinctUntilChanged(),
 &nbsp;
-  delete(hero: Hero): void {
-    this.heroes = this.heroes.filter(h =&gt; h !== hero);
-    this.heroService.deleteHero(hero).subscribe();
+      // switch to new search observable each time the term changes
+      switchMap((term: string) =&gt; this.heroService.searchHeroes(term)),
+    );
   }
-&nbsp;
 }
 &nbsp;</pre></td></tr></table></pre>
 
