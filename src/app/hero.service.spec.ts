@@ -150,7 +150,7 @@ describe('HeroService', () => {
     });
 
     describe('deleteHero', () => {
-        it('should call get with the correct URL', () => {
+        it('should call get with the correct URL when passing Hero object', () => {
             // arrange
             let actual = { id: 4, name: 'SuperDude', strength: 100 } as Hero
             let expected: Hero;
@@ -166,6 +166,24 @@ describe('HeroService', () => {
             expect(expected.name).toContain('SuperDude');
             httpTestingController.verify();
         });
+
+        it('should call get with the correct URL when passing id', () => {
+            // arrange
+            let actual = { id: 4, name: 'SuperDude', strength: 100 } as Hero
+            let expected: Hero;
+
+            // act
+            heroService.deleteHero(actual.id).subscribe((data) => {
+                expected = data;
+            });
+
+            // assert
+            const req = httpTestingController.expectOne('api/heroes/4');
+            req.flush({ id: 4, name: 'SuperDude', strength: 100 });
+            expect(expected.name).toContain('SuperDude');
+            httpTestingController.verify();
+        });
+
 
         it('should call message service when error occurs', () => {
             // arrange           
@@ -199,6 +217,21 @@ describe('HeroService', () => {
             // assert
             const req = httpTestingController.expectOne('api/heroes/?id=1');
             req.flush([{ id: 4, name: 'SuperDude', strength: 100 }]);
+            httpTestingController.verify();
+        });
+
+        it('should return undefined if not found', () => {
+            // arrange
+            
+
+            // act
+            heroService.getHeroNo404(1).subscribe((data) => {
+                expect(data).toEqual(undefined);
+            });
+
+            // assert
+            const req = httpTestingController.expectOne('api/heroes/?id=1');
+            req.flush({});
             httpTestingController.verify();
         });
     });
